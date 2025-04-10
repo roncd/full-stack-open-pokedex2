@@ -42,29 +42,6 @@ jobs:
         run: date
       - name: Afficher le contenu du répertoire courant
         run: ls -l
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - run: npm ci
-      - name: Define env vars
-        run: |
-          echo "VITE_BUILD_AUTHOR=${{ github.actor }}" >> $GITHUB_ENV
-          echo "VITE_BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
-      - run: npm run build
-      - name: Protect .env files
-        run: |
-          cat > dist/.htaccess << EOF
-          <Files .env>
-            Order allow,deny
-            Deny from all
-          </Files>
-          EOF
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: front-end-build
-          path: ./dist
 
 
   deploy_production:
